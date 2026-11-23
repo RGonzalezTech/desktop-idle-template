@@ -87,6 +87,7 @@ func resume() -> void:
 
 		while remaining > 0.0:
 			catchup_progress.emit(remaining, total)
+			elapsed += sim_delta
 			tick.emit(sim_delta)
 			remaining -= sim_delta
 
@@ -103,3 +104,12 @@ func _on_timer_timeout() -> void:
 	var delta := 1.0 / tick_rate
 	elapsed += delta
 	tick.emit(delta)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		if _timer != null:
+			if _timer.is_inside_tree():
+				_timer.get_parent().remove_child(_timer)
+			_timer.queue_free()
+			_timer = null
