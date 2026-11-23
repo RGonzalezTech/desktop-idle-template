@@ -38,6 +38,7 @@ func has_resource(id: StringName) -> bool:
 func modify(id: StringName, delta: float) -> float:
 	var res: GameResource = _resources.get(id, null)
 	if res == null:
+		push_error("Resource '%s' not found" % id)
 		return 0.0
 	res.amount = clampf(res.amount + delta, res.min_value, res.max_value)
 	return res.amount
