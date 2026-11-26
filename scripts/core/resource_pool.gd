@@ -9,7 +9,7 @@ signal resource_added(id: StringName)
 signal resource_removed(id: StringName)
 signal resource_changed(id: StringName, new_amount: float, delta: float)
 
-var _resources: Dictionary = {}
+@export var _resources: Dictionary = {}
 
 
 func add_resource(id: StringName, initial: float, min_val: float = 0.0, max_val: float = INF) -> GameResource:

@@ -5,15 +5,15 @@ extends Resource
 ## Integrates T2-T8: holds clock, resources, producers, upgrades, events, and config.
 ## ShopInventory field is a placeholder — T10 builds it.
 
-var save_version: int = 1
-var clock: GameClock
-var config: GameConfig
-var resources: ResourcePool
-var producers: Array[BaseProducer] = []
-var upgrades: Array[BaseUpgrade] = []
-var events: Array[BaseEvent] = []
+@export var save_version: int = 1
+@export var clock: GameClock
+@export var config: GameConfig
+@export var resources: ResourcePool
+@export var producers: Array[BaseProducer] = []
+@export var upgrades: Array[BaseUpgrade] = []
+@export var events: Array[BaseEvent] = []
 ## Placeholder — built in Task 10. Null until ShopInventory is created.
-var shop_inventory: Resource = null
+@export var shop_inventory: Resource = null
 
 
 func _init() -> void:
