@@ -34,13 +34,13 @@ func _check_threshold(pool) -> bool:
 	return false
 
 
-func check_condition(state) -> bool:
+func check_condition(state: GameState) -> bool:
 	if one_shot and has_fired:
 		return false
 	return _check_threshold(state.resources)
 
 
-func execute(state) -> void:
+func execute(state: GameState) -> void:
 	match action_type:
 		ActionType.MODIFY_RESOURCE:
 			state.resources.modify(action_target, action_value)
