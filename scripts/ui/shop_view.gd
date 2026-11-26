@@ -33,8 +33,20 @@ func _refresh() -> void:
 		child.queue_free()
 	for entry in shop_inventory.get_visible_entries(game_state):
 		var btn := Button.new()
-		btn.text = "%s — %.0f %s" % [entry.display_name, entry.cost_amount, entry.cost_resource]
+		var label := "%s — %.0f %s" % [entry.display_name, entry.cost_amount, entry.cost_resource]
+		if entry is ProducerShopEntry:
+			var owner_count := _get_owned_count(entry.producer_id)
+			label += " (x%d)" % owner_count
+		btn.text = label
 		btn.disabled = not entry.can_afford(game_state)
 		var entry_id: StringName = entry.entry_id
 		btn.pressed.connect(func(): shop_inventory.purchase(entry_id, game_state))
 		_container.add_child(btn)
+
+func _get_owned_count(producer_id: StringName) -> int:
+	if game_state == null:
+		return 0
+	var producer := game_state.get_producer(producer_id)
+	if producer == null:
+		return 0
+	return producer.count

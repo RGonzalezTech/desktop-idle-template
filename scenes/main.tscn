@@ -1,53 +1,66 @@
-[gd_scene load_steps=16 format=3 uid="uid://b16f7c"]
+[gd_scene load_steps=19 format=3 uid="uid://b16f7c"]
 
-[ext_resource type="Script" path="res://scripts/core/idle_runner.gd" id="1_idlrun"]
-[ext_resource type="Script" path="res://scripts/core/game_state.gd" id="2_gs"]
-[ext_resource type="Script" path="res://scripts/core/game_config.gd" id="3_gc"]
-[ext_resource type="Script" path="res://scripts/producers/click_producer.gd" id="4_cp"]
-[ext_resource type="Script" path="res://scripts/producers/passive_producer.gd" id="5_pp"]
-[ext_resource type="Script" path="res://scripts/shop/shop_entry.gd" id="6_se"]
-[ext_resource type="Script" path="res://scripts/shop/producer_shop_entry.gd" id="7_pse"]
-[ext_resource type="Script" path="res://scripts/shop/shop_inventory.gd" id="8_si"]
-[ext_resource type="PackedScene" path="res://scenes/ui/main_view.tscn" id="9_mnvw"]
+[ext_resource type="Script" uid="uid://4iswot021kk7" path="res://scripts/core/idle_runner.gd" id="1_idlrun"]
+[ext_resource type="Script" uid="uid://tj584knhcn63" path="res://scripts/core/game_state.gd" id="2_gs"]
+[ext_resource type="Script" uid="uid://bok81pmatclxk" path="res://scripts/events/base_event.gd" id="3_eb6dy"]
+[ext_resource type="Script" uid="uid://dne4fsi1vdr65" path="res://scripts/core/game_config.gd" id="3_gc"]
+[ext_resource type="Script" uid="uid://gmhcu1ojtwqm" path="res://scripts/producers/click_producer.gd" id="4_cp"]
+[ext_resource type="Script" uid="uid://dsn7j3lxde07a" path="res://scripts/producers/base_producer.gd" id="4_trceg"]
+[ext_resource type="Script" uid="uid://sq1vbnwgrvm2" path="res://scripts/producers/passive_producer.gd" id="5_pp"]
+[ext_resource type="Script" uid="uid://b4a5072gfyn3o" path="res://scripts/shop/producer_shop_entry.gd" id="7_pse"]
+[ext_resource type="Script" uid="uid://bifyfvrn7ejrs" path="res://scripts/shop/shop_entry.gd" id="8_a8y0u"]
+[ext_resource type="Script" uid="uid://b7sr7evqkv5av" path="res://scripts/shop/shop_inventory.gd" id="8_si"]
+[ext_resource type="PackedScene" uid="uid://05e6b" path="res://scenes/ui/main_view.tscn" id="9_mnvw"]
+[ext_resource type="Script" uid="uid://c1dj0drn5c4jv" path="res://scripts/upgrades/base_upgrade.gd" id="11_jkv2x"]
 
 [sub_resource type="Resource" id="GameConfig_main"]
 script = ExtResource("3_gc")
+window_width = 400
+window_height = 600
+tick_rate = 1.0
+catchup_ticks_per_second = 60.0
 starting_resources = {
 "gold": 0.0
 }
+starting_producers = {}
 
 [sub_resource type="Resource" id="ClickProducer_mine"]
 script = ExtResource("4_cp")
+click_amount = 1.0
+cooldown = 0.0
+rate = 0.0
 producer_id = &"click_mine"
 target_resource = &"gold"
 is_active = true
 count = 1
-click_amount = 1.0
 
 [sub_resource type="Resource" id="PassiveProducer_mine"]
 script = ExtResource("5_pp")
+rate = 0.5
 producer_id = &"auto_mine"
 target_resource = &"gold"
 is_active = true
 count = 1
-rate = 0.5
 
 [sub_resource type="Resource" id="ShopEntry_auto"]
 script = ExtResource("7_pse")
+producer_id = &"auto_mine"
 entry_id = &"buy_auto_mine"
 display_name = "Auto Mine"
 cost_resource = &"gold"
 cost_amount = 10.0
-producer_id = &"auto_mine"
 
 [sub_resource type="Resource" id="ShopInventory_main"]
 script = ExtResource("8_si")
-entries = [SubResource("ShopEntry_auto")]
+entries = Array[ExtResource("8_a8y0u")]([SubResource("ShopEntry_auto")])
 
 [sub_resource type="Resource" id="GameState_main"]
 script = ExtResource("2_gs")
+save_version = 1
 config = SubResource("GameConfig_main")
-producers = [SubResource("ClickProducer_mine"), SubResource("PassiveProducer_mine")]
+producers = Array[ExtResource("4_trceg")]([SubResource("ClickProducer_mine"), SubResource("PassiveProducer_mine")])
+upgrades = Array[ExtResource("11_jkv2x")]([])
+events = Array[ExtResource("3_eb6dy")]([])
 shop_inventory = SubResource("ShopInventory_main")
 
 [node name="Main" type="Control"]
@@ -55,14 +68,12 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="IdleRunner" type="Node" parent="."]
 script = ExtResource("1_idlrun")
 game_state = SubResource("GameState_main")
 
 [node name="MainView" parent="." instance=ExtResource("9_mnvw")]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-idle_runner = NodePath("../IdleRunner")
+layout_mode = 1

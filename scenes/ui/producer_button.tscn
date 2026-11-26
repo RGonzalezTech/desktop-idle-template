@@ -4,3 +4,5 @@
 
 [node name="ProducerButton" type="Button"]
 script = ExtResource("1_d27b3")
+producer_id = &"click_mine"
+display_text = "Mine"

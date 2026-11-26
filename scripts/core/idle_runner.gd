@@ -14,7 +14,7 @@ func start() -> void:
 		return
 	game_state._apply_starting_config()
 	game_state.clock.tick.connect(_on_tick)
-	game_state.clock.start()
+	game_state.clock.start(self)
 
 
 func _on_tick(delta: float) -> void:

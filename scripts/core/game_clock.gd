@@ -40,24 +40,18 @@ signal catchup_finished()
 var _timer: Timer = null
 
 
-func start() -> void:
+func start(parent: Node = null) -> void:
 	if _timer == null:
 		_timer = Timer.new()
 		_timer.one_shot = false
-		# tick_rate ticks per second, so wait_time = 1.0 / tick_rate
 		_timer.wait_time = 1.0 / tick_rate
 		_timer.timeout.connect(_on_timer_timeout)
-		# Add timer as a child of this Resource's owner? No — Resource can't have children.
-		# We'll add it to the scene tree via Engine.get_main_loop() if available,
-		# but for testing, the timer callback can be called directly.
-		# For real runtime, the timer needs to be in the tree.
-		# We'll use a different approach: store the timer and let callers add it,
-		# OR we can add it to the scene tree root.
-		# Actually, for the test to work, we just need _on_timer_timeout callable.
-		# In production, we add to scene tree.
-		var main_loop := Engine.get_main_loop()
-		if main_loop is SceneTree:
-			main_loop.root.add_child(_timer)
+		if parent != null:
+			parent.add_child(_timer)
+		else:
+			var main_loop := Engine.get_main_loop()
+			if main_loop is SceneTree:
+				main_loop.root.add_child(_timer)
 	_timer.start()
 	is_paused = false
 
