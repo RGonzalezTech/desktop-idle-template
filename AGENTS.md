@@ -31,7 +31,7 @@ How AI coding agents (Claude Code, Codex, Hermes, etc.) work in this repo. Human
 - **TDD for all behavior changes**: write the failing test, run GUT and confirm RED, implement the minimum, confirm GREEN, refactor. Run the suite yourself — don't hand that to the user
 - GUT headless (`-gconfig` and `-gdir` are required):
   ```bash
-  godot --headless --rendering-driver opengl3 -s addons/gut/gut_cmdln.gd -gconfig=res://gutconfig.json -gdir=res://test
+  godot --headless --display-driver headless --audio-driver Dummy --disable-render-loop --rendering-driver opengl3 -s addons/gut/gut_cmdln.gd -gconfig=res://gutconfig.json -gdir=res://test -ginclude_subdirs
   ```
 - After adding a script with `class_name`, run `godot --headless --import` first — otherwise GUT reports `Identifier "X" not declared`
 - Don't verify autoload or `class_name` code with `godot -s script.gd` — that skips autoloads and the class registry. Use a throwaway GUT test
