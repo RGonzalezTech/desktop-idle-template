@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d27b3e"]
+
+[ext_resource type="Script" path="res://scripts/ui/producer_button.gd" id="1_d27b3"]
+
+[node name="ProducerButton" type="Button"]
+script = ExtResource("1_d27b3")

@@ -12,6 +12,7 @@ signal state_saved
 func start() -> void:
 	if game_state == null:
 		return
+	game_state._apply_starting_config()
 	game_state.clock.tick.connect(_on_tick)
 	game_state.clock.start()
 

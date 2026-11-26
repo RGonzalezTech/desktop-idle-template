@@ -1,0 +1,68 @@
+[gd_scene load_steps=16 format=3 uid="uid://b16f7c"]
+
+[ext_resource type="Script" path="res://scripts/core/idle_runner.gd" id="1_idlrun"]
+[ext_resource type="Script" path="res://scripts/core/game_state.gd" id="2_gs"]
+[ext_resource type="Script" path="res://scripts/core/game_config.gd" id="3_gc"]
+[ext_resource type="Script" path="res://scripts/producers/click_producer.gd" id="4_cp"]
+[ext_resource type="Script" path="res://scripts/producers/passive_producer.gd" id="5_pp"]
+[ext_resource type="Script" path="res://scripts/shop/shop_entry.gd" id="6_se"]
+[ext_resource type="Script" path="res://scripts/shop/producer_shop_entry.gd" id="7_pse"]
+[ext_resource type="Script" path="res://scripts/shop/shop_inventory.gd" id="8_si"]
+[ext_resource type="PackedScene" path="res://scenes/ui/main_view.tscn" id="9_mnvw"]
+
+[sub_resource type="Resource" id="GameConfig_main"]
+script = ExtResource("3_gc")
+starting_resources = {
+"gold": 0.0
+}
+
+[sub_resource type="Resource" id="ClickProducer_mine"]
+script = ExtResource("4_cp")
+producer_id = &"click_mine"
+target_resource = &"gold"
+is_active = true
+count = 1
+click_amount = 1.0
+
+[sub_resource type="Resource" id="PassiveProducer_mine"]
+script = ExtResource("5_pp")
+producer_id = &"auto_mine"
+target_resource = &"gold"
+is_active = true
+count = 1
+rate = 0.5
+
+[sub_resource type="Resource" id="ShopEntry_auto"]
+script = ExtResource("7_pse")
+entry_id = &"buy_auto_mine"
+display_name = "Auto Mine"
+cost_resource = &"gold"
+cost_amount = 10.0
+producer_id = &"auto_mine"
+
+[sub_resource type="Resource" id="ShopInventory_main"]
+script = ExtResource("8_si")
+entries = [SubResource("ShopEntry_auto")]
+
+[sub_resource type="Resource" id="GameState_main"]
+script = ExtResource("2_gs")
+config = SubResource("GameConfig_main")
+producers = [SubResource("ClickProducer_mine"), SubResource("PassiveProducer_mine")]
+shop_inventory = SubResource("ShopInventory_main")
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="IdleRunner" type="Node" parent="."]
+script = ExtResource("1_idlrun")
+game_state = SubResource("GameState_main")
+
+[node name="MainView" parent="." instance=ExtResource("9_mnvw")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+idle_runner = NodePath("../IdleRunner")

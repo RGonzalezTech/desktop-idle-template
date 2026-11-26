@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://a05e6b"]
+
+[ext_resource type="Script" path="res://scripts/ui/main_view.gd" id="1_mnview"]
+[ext_resource type="PackedScene" path="res://scenes/ui/resource_display.tscn" id="2_resdsp"]
+[ext_resource type="PackedScene" path="res://scenes/ui/producer_button.tscn" id="3_prdbtn"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_view.tscn" id="4_shopvw"]
+[ext_resource type="PackedScene" path="res://scenes/ui/catchup_modal.tscn" id="5_ctchmd"]
+
+[node name="MainView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mnview")
+idle_runner = NodePath("")
+resource_display = NodePath("MarginContainer/VBoxContainer/ResourceDisplay")
+producer_button = NodePath("MarginContainer/VBoxContainer/ProducerButton")
+shop_view = NodePath("MarginContainer/VBoxContainer/ShopView")
+catchup_modal = NodePath("MarginContainer/VBoxContainer/CatchupModal")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+
+[node name="ResourceDisplay" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_resdsp")]
+
+[node name="ProducerButton" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_prdbtn")]
+
+[node name="ShopView" parent="MarginContainer/VBoxContainer" instance=ExtResource("4_shopvw")]
+
+[node name="CatchupModal" parent="MarginContainer/VBoxContainer" instance=ExtResource("5_ctchmd")]
+visible = false
