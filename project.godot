@@ -22,6 +22,10 @@ window/size/window_width_override=400
 window/size/window_height_override=600
 window/size/mode=0
 
+[autoload]
+
+WindowManager="*res://scripts/ui/window_manager.gd"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/gut/plugin.cfg")
